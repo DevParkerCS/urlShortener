@@ -1,0 +1,33 @@
+.navWrapper {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(black, 0.2);
+  align-items: center;
+}
+
+.navTitleWrapper {
+  margin-left: 2rem;
+
+  .navTitle {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin-right: 2rem;
+
+  .navItem {
+    color: black;
+    font-size: 1.5rem;
+    margin: 0rem 1rem;
+    cursor: pointer;
+    transition: color 0.15s linear;
+
+    &:hover {
+      color: green;
+    }
+  }
+}

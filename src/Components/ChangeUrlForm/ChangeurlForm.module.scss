@@ -1,0 +1,48 @@
+.shortenFormWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 15px;
+  margin-left: 3rem;
+  margin-top: 1.5rem;
+}
+
+.shortenForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.shortenInputWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .shortenInputLabel {
+    font-size: 1.25rem;
+  }
+
+  .shortenInput {
+    padding: 0.5rem;
+    margin: 1rem 0rem;
+    border-radius: 15px;
+  }
+}
+
+.changeBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.changeBtn {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 1rem 0rem;
+  background-color: green;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
