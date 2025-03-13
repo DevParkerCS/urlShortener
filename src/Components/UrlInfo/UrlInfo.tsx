@@ -55,7 +55,13 @@ export const UrlInfo = () => {
 
   return (
     <div>
-      <ChangeUrlForm cb={handleSubmit} />
+      <div className={styles.topContentWrapper}>
+        <ChangeUrlForm cb={handleSubmit} />
+        <div className={styles.topContentText}>
+          <h2>Shorten Your Links,</h2>
+          <h2>Expand Your Website!</h2>
+        </div>
+      </div>
       <RecentlyUsedUrls
         shortenedUrls={shortenedUrls}
         setShortenedUrls={setShortenedUrls}
