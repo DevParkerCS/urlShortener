@@ -19,7 +19,9 @@ export const ChangeUrlForm = ({ cb }: ChangeUrlFormProps) => {
             className={styles.shortenInput}
           />
         </div>
-        <button className={styles.changeBtn}>Shorten URL</button>
+        <div className={styles.changeBtnWrapper}>
+          <button className={styles.changeBtn}>Shorten URL</button>
+        </div>
       </form>
     </div>
   );
