@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styles from "./UrlInfo.module.scss";
 import axios, { AxiosError } from "axios";
-import { ChangeUrlForm } from "../../Components/ChangeUrlForm/ChangeUrlForm";
-import { RecentlyUsedUrls } from "../../Components/RecentlyUsedUrls/RecentlyUsedUrls";
+import { ChangeUrlForm } from "../ChangeUrlForm/ChangeUrlForm";
+import { RecentlyUsedUrls } from "../RecentlyUsedUrls/RecentlyUsedUrls";
 
 type urlAxiosResponse = {
   shortUrl: string;
