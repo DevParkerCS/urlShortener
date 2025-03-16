@@ -29,7 +29,7 @@ export const UrlInfo = () => {
       const urlData: urlAxiosResponse = response.data;
       const newUrlData: shortenedUrlsType = {
         longUrl: input.value,
-        shortUrl: urlData.shortUrl,
+        shortUrl: "localhost:3000/" + urlData.shortUrl,
       };
       const index = shortenedUrls.findIndex(
         (element) => element.shortUrl === urlData.shortUrl

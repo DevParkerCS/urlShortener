@@ -10,6 +10,8 @@ import {
   LinearScale,
 } from "chart.js";
 import styles from "./Tracking.module.scss";
+import { useEffect } from "react";
+import axios from "axios";
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +23,12 @@ ChartJS.register(
 );
 
 export const Tracking = () => {
+  useEffect(() => {}, []);
+
+  const getLinkData = async () => {
+    const response = await axios.get("http://localhost:3000/ae74a5cc");
+  };
+
   const data = {
     labels: ["Jan", "Feb", "Mar"],
     datasets: [
