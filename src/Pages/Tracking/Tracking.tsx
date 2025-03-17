@@ -1,51 +1,47 @@
 import { Bar } from "react-chartjs-2";
 import { Nav } from "../../Components/Nav/Nav";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LinearScale,
-} from "chart.js";
 import styles from "./Tracking.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { shortenedUrlsType } from "../Home/Components/UrlInfo/UrlInfo";
+import { DisplayClickCount } from "./Components/DisplayClickCount/DisplayClickCount";
 
-ChartJS.register(
-  CategoryScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LinearScale
-);
+export type UrlClickType = {
+  clickedAt: Date;
+  id: number;
+  ipAddress: string;
+  urlMapping: shortenedUrlsType;
+};
 
 export const Tracking = () => {
-  useEffect(() => {}, []);
+  const [urlData, setUrlData] = useState<UrlClickType[]>([]);
+  const [isDataProcessed, setIsDataProcessed] = useState(false);
+
+  useEffect(() => {
+    getLinkData();
+  }, []);
 
   const getLinkData = async () => {
-    const response = await axios.get("http://localhost:3000/ae74a5cc");
-  };
+    setIsDataProcessed(false);
+    const response = await axios.get("http://localhost:8080/tracking/2d03102f");
+    const urls: UrlClickType[] = response.data;
 
-  const data = {
-    labels: ["Jan", "Feb", "Mar"],
-    datasets: [
-      {
-        label: "Clicks",
-        data: [400, 300, 500],
-        backgroundColor: "blue",
-      },
-    ],
+    for (let i = 0; i < urls.length; i++) {
+      // Change clickedAt from string to Date
+      urls[i].clickedAt = new Date(urls[i].clickedAt);
+    }
+
+    setUrlData(urls);
+    setIsDataProcessed(true);
   };
 
   return (
     <div>
       <Nav />
-      <div className={styles.chartContainer}>
-        <Bar data={data} options={{ responsive: true }} />
-      </div>
+      <h2 className={styles.pageClicksTitle}>
+        Total Page Clicks: {urlData.length}
+      </h2>
+      <DisplayClickCount urlData={urlData} />
     </div>
   );
 };
