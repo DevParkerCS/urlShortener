@@ -28,23 +28,25 @@ export const RecentlyUsedUrls = ({
   };
 
   return (
-    <div className={styles.recentUrlsWrapper}>
-      <div className={styles.recentUrls}>
+    <div className={styles.contentContainer}>
+      <div className={styles.recentUrlsInfo}>
         <h2 className={styles.recentUrlsTitle}>Recently Shortened URLs</h2>
         {shortenedUrls.length < 1 ? (
           <div className={styles.shortenedNoneTxt}>
             No Shortened Urls To Display Yet
           </div>
         ) : (
-          shortenedUrls.map((urlInfo, i) => (
-            <div className={styles.recentUrl} key={i}>
-              {truncateLongUrl(urlInfo.longUrl)} :{" "}
-              <span onClick={handleUrlClick} className={styles.shortenedUrl}>
-                {urlInfo.shortUrl}
-              </span>{" "}
-              <span className={styles.copySpan}>Copy</span>
-            </div>
-          ))
+          <div className={styles.recentUrls}>
+            {shortenedUrls.map((urlInfo, i) => (
+              <div className={styles.recentUrl} key={i}>
+                {truncateLongUrl(urlInfo.longUrl)} :{" "}
+                <span onClick={handleUrlClick} className={styles.shortenedUrl}>
+                  {urlInfo.shortUrl}
+                </span>{" "}
+                <span className={styles.copySpan}>Copy</span>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
