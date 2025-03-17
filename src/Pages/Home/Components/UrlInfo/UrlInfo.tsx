@@ -32,7 +32,7 @@ export const UrlInfo = () => {
         shortUrl: "localhost:3000/" + urlData.shortUrl,
       };
       const index = shortenedUrls.findIndex(
-        (element) => element.shortUrl === urlData.shortUrl
+        (element) => element.shortUrl === "localhost:3000/" + urlData.shortUrl
       );
       // Check if the shortened url has already been shortened
       if (index === -1) {
@@ -58,8 +58,10 @@ export const UrlInfo = () => {
       <div className={styles.topContentWrapper}>
         <ChangeUrlForm cb={handleSubmit} />
         <div className={styles.topContentText}>
-          <h2>Shorten Your Links,</h2>
-          <h2>Expand Your Website!</h2>
+          <div>
+            <h2>Shorten Your Links,</h2>
+            <h2>Expand Your Website!</h2>
+          </div>
         </div>
       </div>
       <RecentlyUsedUrls
