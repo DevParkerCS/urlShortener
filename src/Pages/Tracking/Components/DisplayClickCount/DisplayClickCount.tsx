@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { UrlClickType } from "../../Tracking";
 import { useEffect, useState } from "react";
+import { renderData } from "../../../../Util/dataRenderer";
 
 ChartJS.register(
   CategoryScale,
@@ -23,24 +24,10 @@ ChartJS.register(
 
 type DisplayClickCountProps = {
   urlData: UrlClickType[];
+  timeFrame: string;
 };
 
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-type DataType = {
+export type DataType = {
   labels: string[];
   datasets: {
     label: string;
@@ -73,7 +60,10 @@ const options = {
   responsive: true,
 };
 
-export const DisplayClickCount = ({ urlData }: DisplayClickCountProps) => {
+export const DisplayClickCount = ({
+  urlData,
+  timeFrame,
+}: DisplayClickCountProps) => {
   const [clickData, setClickData] = useState<DataType>(data);
   const [isDataReady, setIsDataReady] = useState(false);
 
@@ -89,22 +79,15 @@ export const DisplayClickCount = ({ urlData }: DisplayClickCountProps) => {
 
   const processDataByMonth = () => {
     setIsDataReady(false);
-    let newData = { ...clickData };
-    newData.datasets[0].data.length = 12;
-    newData.labels.length = 12;
-    for (let i = 0; i < 12; i++) {
-      newData.labels[i] = MONTHS[i];
-      newData.datasets[0].data[i] = 0;
-    }
+    const render: DataType | undefined = renderData(
+      urlData,
+      clickData,
+      timeFrame
+    );
 
-    for (let i = 0; i < urlData.length; i++) {
-      const monthIndex = urlData[i].clickedAt.getMonth();
-      const monthData = newData.datasets[0].data;
-      monthData[monthIndex]++;
-    }
-    setClickData(newData);
+    setClickData(render || data);
   };
-  console.log(clickData);
+
   return (
     <div className={styles.graphWrapper}>
       {isDataReady && <Bar data={clickData} options={options} />}

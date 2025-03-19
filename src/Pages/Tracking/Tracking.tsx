@@ -1,10 +1,9 @@
-import { Bar } from "react-chartjs-2";
 import { Nav } from "../../Components/Nav/Nav";
 import styles from "./Tracking.module.scss";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { shortenedUrlsType } from "../Home/Components/UrlInfo/UrlInfo";
 import { DisplayClickCount } from "./Components/DisplayClickCount/DisplayClickCount";
+import { processData } from "../../Util/dataProcessor";
 
 export type UrlClickType = {
   clickedAt: Date;
@@ -15,6 +14,7 @@ export type UrlClickType = {
 
 export const Tracking = () => {
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
+  const [timeFrame, setTimeFrame] = useState("hourly");
   const [isDataProcessed, setIsDataProcessed] = useState(false);
 
   useEffect(() => {
@@ -23,15 +23,13 @@ export const Tracking = () => {
 
   const getLinkData = async () => {
     setIsDataProcessed(false);
-    const response = await axios.get("http://localhost:8080/tracking/2d03102f");
-    const urls: UrlClickType[] = response.data;
+    const urls: UrlClickType[] | undefined = await processData(
+      timeFrame,
+      new Date(),
+      new Date()
+    );
 
-    for (let i = 0; i < urls.length; i++) {
-      // Change clickedAt from string to Date
-      urls[i].clickedAt = new Date(urls[i].clickedAt);
-    }
-
-    setUrlData(urls);
+    setUrlData(urls || []);
     setIsDataProcessed(true);
   };
 
@@ -39,9 +37,9 @@ export const Tracking = () => {
     <div>
       <Nav />
       <h2 className={styles.pageClicksTitle}>
-        Total Page Clicks: {urlData.length}
+        Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}
       </h2>
-      <DisplayClickCount urlData={urlData} />
+      <DisplayClickCount urlData={urlData} timeFrame={timeFrame} />
     </div>
   );
 };
