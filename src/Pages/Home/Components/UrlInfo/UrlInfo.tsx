@@ -12,6 +12,7 @@ type urlAxiosResponse = {
 export type shortenedUrlsType = {
   longUrl: string;
   shortUrl: string;
+  totalClicks: number;
 };
 
 export const UrlInfo = () => {
@@ -26,17 +27,16 @@ export const UrlInfo = () => {
       const response = await axios.post("http://localhost:8080/shorten", {
         url: input.value,
       });
-      const urlData: urlAxiosResponse = response.data;
-      const newUrlData: shortenedUrlsType = {
-        longUrl: input.value,
-        shortUrl: "localhost:3000/" + urlData.shortUrl,
-      };
+      const urlData: shortenedUrlsType = response.data;
+      urlData.shortUrl = "localhost:3000/" + urlData.shortUrl;
+      console.log(urlData);
+
       const index = shortenedUrls.findIndex(
-        (element) => element.shortUrl === "localhost:3000/" + urlData.shortUrl
+        (element) => element.shortUrl === urlData.shortUrl
       );
       // Check if the shortened url has already been shortened
       if (index === -1) {
-        setShortenedUrls([newUrlData, ...shortenedUrls]);
+        setShortenedUrls([urlData, ...shortenedUrls]);
       } else {
         setShortenedUrls((prevState) => {
           const newArray = [...prevState];
