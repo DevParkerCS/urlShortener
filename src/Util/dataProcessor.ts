@@ -17,7 +17,8 @@ export const processData = (
 
     case "hourly":
       return getHourlyData(startDate);
-    case "minute":
+    case "recent":
+      return getLatestHour();
   }
 };
 
@@ -25,10 +26,7 @@ const getMonthlyData = async () => {
   const response = await axios.get("http://localhost:8080/tracking/9ca625d3");
   const urls: UrlClickType[] = response.data;
 
-  for (let i = 0; i < urls.length; i++) {
-    // Change clickedAt from string to Date
-    urls[i].clickedAt = new Date(urls[i].clickedAt);
-  }
+  assingnUrlsDate(urls);
 
   return urls;
 };
@@ -39,11 +37,25 @@ const getHourlyData = async (day: Date) => {
   );
 
   const urls: UrlClickType[] = response.data;
+  assingnUrlsDate(urls);
 
+  return urls;
+};
+
+const getLatestHour = async () => {
+  const response = await axios.get(
+    `http://localhost:8080/tracking/current/9ca625d3`
+  );
+  const urls: UrlClickType[] = response.data;
+
+  assingnUrlsDate(urls);
+
+  return urls;
+};
+
+const assingnUrlsDate = (urls: UrlClickType[]) => {
   for (let i = 0; i < urls.length; i++) {
     // Change clickedAt from string to Date
     urls[i].clickedAt = new Date(urls[i].clickedAt);
   }
-
-  return urls;
 };

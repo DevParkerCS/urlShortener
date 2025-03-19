@@ -11,6 +11,8 @@ export const renderData = (
       return setupMonthly(urls, graphData);
     case "hourly":
       return setupHourly(urls, graphData);
+    case "recent":
+      return setupCurrent(urls, graphData);
   }
 };
 
@@ -60,10 +62,63 @@ const setupHourly = (urls: UrlClickType[], graphData: DataType) => {
     "10 P.M.",
   ];
 
+  const hourData = newData.datasets[0].data;
+
   for (let i = 0; i < urls.length; i++) {
     const hourIndex = Math.floor(urls[i].clickedAt.getHours() / 2);
-    const hourData = newData.datasets[0].data;
     hourData[hourIndex]++;
+  }
+
+  return newData;
+};
+
+const setupCurrent = (urls: UrlClickType[], graphData: DataType) => {
+  let newData = { ...graphData };
+  newData.datasets[0].data = Array(12).fill(0);
+  const date = new Date();
+  const startDate = new Date(date);
+  startDate.setHours(startDate.getHours() - 1);
+
+  let multiple = 0;
+
+  // Add labels for the previous hour in 5 minute segments
+  for (let i = 0; i < 12; i++) {
+    let updatedMinutes = startDate.getMinutes() + multiple * 5;
+    multiple++;
+    if (updatedMinutes >= 60) {
+      startDate.setHours(startDate.getHours() + 1);
+      startDate.setMinutes(updatedMinutes - 60);
+      updatedMinutes = startDate.getMinutes();
+      multiple = 0;
+    }
+
+    newData.labels[i] =
+      (startDate.getHours() <= 12
+        ? startDate.getHours()
+        : startDate.getHours() - 12) +
+      ":" +
+      (updatedMinutes < 10 ? "0" + updatedMinutes : updatedMinutes);
+  }
+
+  // Determine how many columns exist in the previous hour
+  const offset = (60 - date.getMinutes()) % 12;
+
+  // Add click data to correct column
+  for (let i = 0; i < urls.length; i++) {
+    const clickedAt = urls[i].clickedAt;
+
+    // Calculate the difference in minutes between current time and clicked time
+    const clickedMinutes = clickedAt.getMinutes() + clickedAt.getHours() * 60;
+    const currentMinutes = date.getMinutes() + date.getHours() * 60;
+    const diffInMinutes = currentMinutes - clickedMinutes;
+
+    // Break into 5 minute segments
+    let index = Math.floor(diffInMinutes / 5);
+
+    // Reverse index since 0 is an hour ago
+    index = 11 - index;
+
+    newData.datasets[0].data[index]++;
   }
 
   return newData;

@@ -14,7 +14,7 @@ export type UrlClickType = {
 
 export const Tracking = () => {
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
-  const [timeFrame, setTimeFrame] = useState("hourly");
+  const [timeFrame, setTimeFrame] = useState("recent");
   const [isDataProcessed, setIsDataProcessed] = useState(false);
 
   useEffect(() => {
