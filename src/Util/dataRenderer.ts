@@ -70,6 +70,7 @@ const setupHourly = (urls: UrlClickType[], graphData: DataType) => {
 
   for (let i = 0; i < urls.length; i++) {
     const hourIndex = Math.floor(urls[i].clickedAt.getHours() / 2);
+    console.log(urls[i].clickedAt);
     hourData[hourIndex]++;
   }
 
@@ -94,7 +95,7 @@ const setupCurrent = (urls: UrlClickType[], graphData: DataType) => {
       startDate.setHours(startDate.getHours() + 1);
       startDate.setMinutes(updatedMinutes - 60);
       updatedMinutes = startDate.getMinutes();
-      multiple = 0;
+      multiple = 1;
     }
 
     newData.labels[i] =
@@ -136,10 +137,45 @@ const setupDaily = (
   startDay: Date,
   endDay: Date
 ) => {
+  // Get the max days in the current month
   const maxDays = new Date(
     startDay.getFullYear(),
     startDay.getMonth() + 1,
     0
   ).getDate();
-  return graphData;
+
+  let daysGap = endDay.getDate() - startDay.getDate();
+
+  // The start day and end day are in different months
+  if (daysGap < 0) {
+    daysGap = maxDays - startDay.getDate() + endDay.getDate();
+  }
+  let newData = { ...graphData };
+  newData.datasets[0].data = Array(daysGap + 1).fill(0);
+
+  let curDay = new Date(startDay);
+
+  // Setup labels for days between start and end
+  for (let i = 0; i < daysGap + 1; i++) {
+    if (curDay.getDate() > maxDays) {
+      curDay.setMonth(curDay.getMonth() + 1);
+      curDay.setDate(1);
+    }
+    newData.labels[i] = DAYS[curDay.getDay()];
+    curDay.setDate(curDay.getDate() + 1);
+  }
+
+  // Parse url click data
+  for (let i = 0; i < urls.length; i++) {
+    let curIndex = urls[i].clickedAt.getDate() - startDay.getDate();
+
+    // If the current click data is in a new month
+    if (curIndex < 0) {
+      curIndex = maxDays - startDay.getDate() + urls[i].clickedAt.getDate();
+    }
+    // Increase click count
+    newData.datasets[0].data[curIndex]++;
+  }
+
+  return newData;
 };

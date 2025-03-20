@@ -14,14 +14,18 @@ export type UrlClickType = {
 
 export const Tracking = () => {
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
-  const [timeFrame, setTimeFrame] = useState("daily");
+  const [timeFrame, setTimeFrame] = useState("monthly");
   const [startDay, setStartDay] = useState<Date>(new Date());
-  const [endDay, setEndDay] = useState<Date>(new Date());
+  const [endDay, setEndDay] = useState<Date>(() => {
+    const date = new Date(startDay);
+    date.setDate(date.getDate() + 7);
+    return date;
+  });
   const [isDataProcessed, setIsDataProcessed] = useState(false);
 
   useEffect(() => {
     getLinkData();
-  }, []);
+  }, [timeFrame]);
 
   const getLinkData = async () => {
     setIsDataProcessed(false);
@@ -41,6 +45,13 @@ export const Tracking = () => {
       <h2 className={styles.pageClicksTitle}>
         Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}
       </h2>
+      <div>
+        <button onClick={() => setTimeFrame("monthly")}>Monthly</button>
+        <button onClick={() => setTimeFrame("weekly")}>Weekly</button>
+        <button onClick={() => setTimeFrame("daily")}>Daily</button>
+        <button onClick={() => setTimeFrame("hourly")}>Hourly</button>
+        <button onClick={() => setTimeFrame("recent")}>Last Hour</button>
+      </div>
       <DisplayClickCount
         urlData={urlData}
         timeFrame={timeFrame}
