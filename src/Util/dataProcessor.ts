@@ -23,7 +23,7 @@ export const processData = (
 };
 
 const getMonthlyData = async () => {
-  const response = await axios.get("http://localhost:8080/tracking/9ca625d3");
+  const response = await axios.get("http://localhost:8080/tracking/7d8a5b5d");
   const urls: UrlClickType[] = response.data;
 
   assingnUrlsDate(urls);
@@ -32,8 +32,9 @@ const getMonthlyData = async () => {
 };
 
 const getHourlyData = async (day: Date) => {
+  console.log(day);
   const response = await axios.get(
-    `http://localhost:8080/tracking/hourly/9ca625d3/${day.toISOString()}`
+    `http://localhost:8080/tracking/hourly/7d8a5b5d/${day.toISOString()}`
   );
 
   const urls: UrlClickType[] = response.data;
@@ -44,7 +45,7 @@ const getHourlyData = async (day: Date) => {
 
 const getLatestHour = async () => {
   const response = await axios.get(
-    `http://localhost:8080/tracking/current/9ca625d3`
+    `http://localhost:8080/tracking/current/7d8a5b5d`
   );
   const urls: UrlClickType[] = response.data;
 
@@ -55,7 +56,7 @@ const getLatestHour = async () => {
 
 const getDailyData = async (startDate: Date, endDate: Date) => {
   const response = await axios.get(
-    `http://localhost:8080/tracking/daily/9ca625d3/${startDate.toISOString()}/${startDate.toISOString()}`
+    `http://localhost:8080/tracking/daily/7d8a5b5d/${startDate.toISOString()}/${startDate.toISOString()}`
   );
   const urls: UrlClickType[] = response.data;
   assingnUrlsDate(urls);
