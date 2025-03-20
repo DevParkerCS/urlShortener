@@ -25,6 +25,8 @@ ChartJS.register(
 type DisplayClickCountProps = {
   urlData: UrlClickType[];
   timeFrame: string;
+  startDay: Date;
+  endDay: Date;
 };
 
 export type DataType = {
@@ -63,12 +65,16 @@ const options = {
 export const DisplayClickCount = ({
   urlData,
   timeFrame,
+  startDay,
+  endDay,
 }: DisplayClickCountProps) => {
   const [clickData, setClickData] = useState<DataType>(data);
   const [isDataReady, setIsDataReady] = useState(false);
 
   useEffect(() => {
-    processDataByMonth();
+    if (urlData.length > 0) {
+      processDataByMonth();
+    }
   }, [urlData]);
 
   useEffect(() => {
@@ -82,7 +88,9 @@ export const DisplayClickCount = ({
     const render: DataType | undefined = renderData(
       urlData,
       clickData,
-      timeFrame
+      timeFrame,
+      startDay,
+      endDay
     );
 
     setClickData(render || data);

@@ -14,7 +14,9 @@ export type UrlClickType = {
 
 export const Tracking = () => {
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
-  const [timeFrame, setTimeFrame] = useState("recent");
+  const [timeFrame, setTimeFrame] = useState("daily");
+  const [startDay, setStartDay] = useState<Date>(new Date());
+  const [endDay, setEndDay] = useState<Date>(new Date());
   const [isDataProcessed, setIsDataProcessed] = useState(false);
 
   useEffect(() => {
@@ -25,8 +27,8 @@ export const Tracking = () => {
     setIsDataProcessed(false);
     const urls: UrlClickType[] | undefined = await processData(
       timeFrame,
-      new Date(),
-      new Date()
+      startDay,
+      endDay
     );
 
     setUrlData(urls || []);
@@ -39,7 +41,12 @@ export const Tracking = () => {
       <h2 className={styles.pageClicksTitle}>
         Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}
       </h2>
-      <DisplayClickCount urlData={urlData} timeFrame={timeFrame} />
+      <DisplayClickCount
+        urlData={urlData}
+        timeFrame={timeFrame}
+        startDay={startDay}
+        endDay={endDay}
+      />
     </div>
   );
 };

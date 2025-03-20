@@ -4,11 +4,15 @@ import { UrlClickType } from "../Pages/Tracking/Tracking";
 export const renderData = (
   urls: UrlClickType[],
   graphData: DataType,
-  timeFrame: string
+  timeFrame: string,
+  startDay: Date,
+  endDay: Date
 ) => {
   switch (timeFrame) {
     case "monthly":
       return setupMonthly(urls, graphData);
+    case "daily":
+      return setupDaily(urls, graphData, startDay, endDay);
     case "hourly":
       return setupHourly(urls, graphData);
     case "recent":
@@ -85,6 +89,7 @@ const setupCurrent = (urls: UrlClickType[], graphData: DataType) => {
   for (let i = 0; i < 12; i++) {
     let updatedMinutes = startDate.getMinutes() + multiple * 5;
     multiple++;
+    // Add an hour since the minutes are greater than an hour
     if (updatedMinutes >= 60) {
       startDate.setHours(startDate.getHours() + 1);
       startDate.setMinutes(updatedMinutes - 60);
@@ -122,4 +127,19 @@ const setupCurrent = (urls: UrlClickType[], graphData: DataType) => {
   }
 
   return newData;
+};
+
+const DAYS = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
+const setupDaily = (
+  urls: UrlClickType[],
+  graphData: DataType,
+  startDay: Date,
+  endDay: Date
+) => {
+  const maxDays = new Date(
+    startDay.getFullYear(),
+    startDay.getMonth() + 1,
+    0
+  ).getDate();
+  return graphData;
 };
