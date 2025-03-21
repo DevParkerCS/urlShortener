@@ -41,7 +41,7 @@ const getHourlyData = async (day: Date, encodedTimeZone: string) => {
   );
 
   const urls: UrlClickType[] = response.data;
-  console.log(urls);
+
   assingnUrlsDate(urls);
 
   return urls;
@@ -68,7 +68,7 @@ const getDailyData = async (
   );
   const urls: UrlClickType[] = response.data;
   assingnUrlsDate(urls);
-  console.log(urls);
+
   return urls;
 };
 

@@ -1,7 +1,7 @@
 import { DataType } from "../Pages/Tracking/Components/DisplayClickCount/DisplayClickCount";
 import { UrlClickType } from "../Pages/Tracking/Tracking";
 
-export const renderData = (
+export const renderClickData = (
   urls: UrlClickType[],
   graphData: DataType,
   timeFrame: string,
@@ -42,7 +42,6 @@ const setupMonthly = (urls: UrlClickType[], graphData: DataType) => {
 
   for (let i = 0; i < urls.length; i++) {
     const monthIndex = urls[i].clickedAt.getMonth();
-    console.log(urls[i].clickedAt.getHours());
     const monthData = newData.datasets[0].data;
     monthData[monthIndex]++;
   }
@@ -71,7 +70,6 @@ const setupHourly = (urls: UrlClickType[], graphData: DataType) => {
 
   for (let i = 0; i < urls.length; i++) {
     const hourIndex = Math.floor(urls[i].clickedAt.getHours() / 2);
-    console.log(urls[i].clickedAt);
     hourData[hourIndex]++;
   }
 

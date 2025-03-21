@@ -11,6 +11,7 @@ export type UrlClickType = {
   id: number;
   ipAddress: string;
   urlMapping: shortenedUrlsType;
+  region: string;
 };
 
 export const Tracking = () => {

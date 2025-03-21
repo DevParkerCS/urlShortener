@@ -12,7 +12,7 @@ import {
 } from "chart.js";
 import { UrlClickType } from "../../Tracking";
 import { useEffect, useState } from "react";
-import { renderData } from "../../../../Util/dataRenderer";
+import { renderClickData } from "../../../../Util/ClickDataRenderer";
 
 ChartJS.register(
   CategoryScale,
@@ -106,7 +106,7 @@ export const DisplayClickCount = ({
 
   const processDataByMonth = () => {
     setIsDataReady(false);
-    const render: DataType | undefined = renderData(
+    const render: DataType | undefined = renderClickData(
       urlData,
       clickData,
       timeFrame,
