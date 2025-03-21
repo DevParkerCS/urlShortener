@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   LinearScale,
+  ChartOptions,
 } from "chart.js";
 import { UrlClickType } from "../../Tracking";
 import { useEffect, useState } from "react";
@@ -44,18 +45,38 @@ const data: DataType = {
     {
       label: "Clicks",
       data: [],
-      backgroundColor: "#4a6572",
+      backgroundColor: "#f5eedc",
     },
   ],
 };
 
-const options = {
+const options: ChartOptions<"bar"> = {
   scales: {
     y: {
       beginAtZero: true,
+      type: "linear",
       ticks: {
-        min: 1,
         stepSize: 1,
+        color: "white",
+      },
+      grid: {
+        color: "white",
+      },
+    },
+    x: {
+      ticks: {
+        color: "white",
+      },
+      grid: {
+        color: "white",
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      position: "top" as const,
+      labels: {
+        color: "white",
       },
     },
   },
@@ -98,6 +119,7 @@ export const DisplayClickCount = ({
 
   return (
     <div className={styles.graphWrapper}>
+      <h2 className={styles.graphTitle}>Clicks By Date</h2>
       {isDataReady && <Bar data={clickData} options={options} />}
     </div>
   );
