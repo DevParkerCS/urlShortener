@@ -4,3 +4,39 @@
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
+
+.dataDisplayWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
+.chartsWrapper {
+  background-color: #4a6572;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.chartRow {
+  display: flex;
+  width: fit-content;
+}
+
+.dataBtnsWrapper {
+  .dataBtn {
+    font-size: 1.1rem;
+    padding: 0.25rem 0.5rem;
+    background-color: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      border: 2px solid black;
+    }
+
+    &.active {
+      border: 2px solid black;
+    }
+  }
+}
