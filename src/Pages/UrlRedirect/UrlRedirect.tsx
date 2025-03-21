@@ -11,7 +11,11 @@ export const UrlRedirect = () => {
 
   const moveToExternal = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/${id}`);
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const encodedTimeZone = encodeURIComponent(userTimeZone);
+      const response = await axios.get(
+        `http://localhost:8080/${id}?timeZone=${encodedTimeZone}`
+      );
       const url = response.data;
       window.location.href =
         url.startsWith("http://") || url.startsWith("https://")
