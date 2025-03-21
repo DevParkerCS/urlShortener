@@ -8,6 +8,7 @@ export const renderData = (
   startDay: Date,
   endDay: Date
 ) => {
+  graphData.labels = [];
   switch (timeFrame) {
     case "monthly":
       return setupMonthly(urls, graphData);
