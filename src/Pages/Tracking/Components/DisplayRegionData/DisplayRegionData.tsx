@@ -6,8 +6,6 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
-  ChartData,
-  TooltipItem,
   Colors,
 } from "chart.js";
 import { useEffect, useRef, useState } from "react";
@@ -85,7 +83,7 @@ export const DisplayRegionData = ({ urls }: PieChartProps) => {
       if (chart.data) {
         chart.data.labels = regionData.labels;
         chart.data.datasets[0].data = regionData.datasets[0].data;
-        chart.update(); // ✅ This will now work
+        chart.update();
       }
     }
   }, [urls]);

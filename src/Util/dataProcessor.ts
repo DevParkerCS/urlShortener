@@ -14,19 +14,36 @@ export const processData = (
     case "monthly":
       return getMonthlyData(encodedTimeZone);
     case "weekly":
-
+      return getWeeklyData(startDate, endDate, encodedTimeZone);
     case "daily":
       return getDailyData(startDate, endDate, encodedTimeZone);
     case "hourly":
       return getHourlyData(startDate, encodedTimeZone);
     case "recent":
       return getLatestHour(encodedTimeZone);
+    default:
+      return getMonthlyData(encodedTimeZone);
   }
 };
 
 const getMonthlyData = async (encodedTimeZone: string) => {
   const response = await axios.get(
     `http://localhost:8080/tracking/7d8a5b5d/${2025}?timeZone=${encodedTimeZone}`
+  );
+  const urls: UrlClickType[] = response.data;
+
+  assingnUrlsDate(urls);
+
+  return urls;
+};
+
+const getWeeklyData = async (
+  startDate: Date,
+  endDate: Date,
+  encodedTimeZone: string
+) => {
+  const response = await axios.get(
+    `http://localhost:8080/tracking/weekly/7d8a5b5d/${startDate.toISOString()}/${endDate.toISOString()}?timeZone=${encodedTimeZone}`
   );
   const urls: UrlClickType[] = response.data;
 

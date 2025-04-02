@@ -93,9 +93,7 @@ export const DisplayClickCount = ({
   const [isDataReady, setIsDataReady] = useState(false);
 
   useEffect(() => {
-    if (urlData.length > 0) {
-      processDataByMonth();
-    }
+    processDataByMonth();
   }, [urlData]);
 
   useEffect(() => {

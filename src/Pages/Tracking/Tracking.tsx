@@ -20,7 +20,7 @@ export const Tracking = () => {
   const [startDay, setStartDay] = useState<Date>(new Date());
   const [endDay, setEndDay] = useState<Date>(() => {
     const date = new Date(startDay);
-    date.setDate(date.getDate() + 7);
+    date.setDate(date.getDate() + 7 * 4 * 3);
     return date;
   });
   const [isDataProcessed, setIsDataProcessed] = useState(false);
@@ -31,13 +31,9 @@ export const Tracking = () => {
 
   const getLinkData = async () => {
     setIsDataProcessed(false);
-    const urls: UrlClickType[] | undefined = await processData(
-      timeFrame,
-      startDay,
-      endDay
-    );
+    const urls: UrlClickType[] = await processData(timeFrame, startDay, endDay);
 
-    setUrlData(urls || []);
+    setUrlData([...urls]);
     setIsDataProcessed(true);
   };
 

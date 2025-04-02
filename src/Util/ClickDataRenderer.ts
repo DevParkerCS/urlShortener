@@ -18,33 +18,76 @@ export const renderClickData = (
       return setupHourly(urls, graphData);
     case "recent":
       return setupCurrent(urls, graphData);
+    case "weekly":
+      return setupWeekly(urls, graphData, startDay, endDay);
   }
 };
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 const setupMonthly = (urls: UrlClickType[], graphData: DataType) => {
   let newData = { ...graphData };
   newData.datasets[0].data = Array(12).fill(0);
   newData.labels.length = 12;
-  newData.labels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  newData.labels = MONTHS;
 
   for (let i = 0; i < urls.length; i++) {
     const monthIndex = urls[i].clickedAt.getMonth();
     const monthData = newData.datasets[0].data;
     monthData[monthIndex]++;
   }
+  return newData;
+};
+
+const setupWeekly = (
+  urls: UrlClickType[],
+  graphData: DataType,
+  startDay: Date,
+  endDay: Date
+) => {
+  const newData = { ...graphData };
+
+  newData.labels = [];
+  newData.datasets[0].data = [];
+
+  let maxDays = new Date(startDay.getFullYear(), startDay.getMonth() + 1, 0);
+
+  let daysGap = endDay.getDate() - startDay.getDate();
+
+  // The start day and end day are in different months
+  if (daysGap < 0) {
+    daysGap = maxDays.getDate() - startDay.getDate() + endDay.getDate();
+  }
+
+  let multiple = 0;
+  let curMonth = startDay.getMonth();
+  for (let i = 0; i <= daysGap / 7; i++) {
+    let curDay = startDay.getDate() + 7 * multiple;
+
+    if (curDay > maxDays.getDate()) {
+      curDay = maxDays.getDate() - curDay;
+      maxDays = new Date(maxDays.getFullYear(), maxDays.getMonth() + 1, 0);
+      curMonth++;
+    }
+
+    newData.labels[i] = MONTHS[curMonth] + " " + curDay;
+
+    multiple++;
+  }
+
   return newData;
 };
 
