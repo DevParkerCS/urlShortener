@@ -43,7 +43,7 @@ const getWeeklyData = async (
   encodedTimeZone: string
 ) => {
   const response = await axios.get(
-    `http://localhost:8080/tracking/weekly/7d8a5b5d/${startDate.toISOString()}/${endDate.toISOString()}?timeZone=${encodedTimeZone}`
+    `http://localhost:8080/tracking/range/7d8a5b5d/${startDate.toISOString()}/${endDate.toISOString()}?timeZone=${encodedTimeZone}`
   );
   const urls: UrlClickType[] = response.data;
 
@@ -54,7 +54,7 @@ const getWeeklyData = async (
 
 const getHourlyData = async (day: Date, encodedTimeZone: string) => {
   const response = await axios.get(
-    `http://localhost:8080/tracking/hourly/7d8a5b5d/${day.toISOString()}?timeZone=${encodedTimeZone}`
+    `http://localhost:8080/tracking/range/7d8a5b5d/${day.toISOString()}/${day.toISOString()}?timeZone=${encodedTimeZone}`
   );
 
   const urls: UrlClickType[] = response.data;
@@ -81,7 +81,7 @@ const getDailyData = async (
   encodedTimeZone: string
 ) => {
   const response = await axios.get(
-    `http://localhost:8080/tracking/daily/7d8a5b5d/${startDate.toISOString()}/${endDate.toISOString()}?timeZone=${encodedTimeZone}`
+    `http://localhost:8080/tracking/range/7d8a5b5d/${startDate.toISOString()}/${endDate.toISOString()}?timeZone=${encodedTimeZone}`
   );
   const urls: UrlClickType[] = response.data;
   assingnUrlsDate(urls);
