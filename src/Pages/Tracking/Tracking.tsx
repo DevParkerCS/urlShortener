@@ -6,6 +6,8 @@ import { DisplayClickCount } from "./Components/DisplayClickCount/DisplayClickCo
 import { processData } from "../../Util/dataProcessor";
 import { DisplayRegionData } from "./Components/DisplayRegionData/DisplayRegionData";
 import { DataButtons } from "./Components/DataButtons/DataButtons";
+import axios from "axios";
+import { UrlSelect } from "./Components/UrlSelection/UrlSelect";
 
 export type UrlClickType = {
   clickedAt: Date;
@@ -31,16 +33,27 @@ export const Tracking = () => {
   }, [timeFrame]);
 
   const getLinkData = async () => {
-    setIsDataProcessed(false);
-    const urls: UrlClickType[] = await processData(timeFrame, startDay, endDay);
+    try {
+      setIsDataProcessed(false);
+      const urls: UrlClickType[] = await processData(
+        timeFrame,
+        startDay,
+        endDay
+      );
 
-    setUrlData([...urls]);
-    setIsDataProcessed(true);
+      setUrlData([...urls]);
+      setIsDataProcessed(true);
+    } catch {
+      console.log("Error getting processed data");
+    }
   };
 
   return (
     <div>
       <Nav />
+
+      <UrlSelect />
+
       <h2 className={styles.pageClicksTitle}>
         Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}
       </h2>

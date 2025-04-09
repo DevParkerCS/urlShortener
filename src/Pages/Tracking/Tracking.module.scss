@@ -23,3 +23,26 @@
   display: flex;
   width: fit-content;
 }
+
+.urlsWrapper {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.15s linear;
+  position: absolute;
+
+  &.active {
+    max-height: 200px;
+  }
+}
+
+.urlWrapper {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: lightgray;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+  font-size: 1.25rem;
+  border: 2px solid black;
+  border-bottom: 0px;
+}
