@@ -23,21 +23,3 @@
   display: flex;
   width: fit-content;
 }
-
-.dataBtnsWrapper {
-  .dataBtn {
-    font-size: 1.1rem;
-    padding: 0.25rem 0.5rem;
-    background-color: transparent;
-    border: 2px solid transparent;
-    cursor: pointer;
-
-    &:hover {
-      border: 2px solid black;
-    }
-
-    &.active {
-      border: 2px solid black;
-    }
-  }
-}

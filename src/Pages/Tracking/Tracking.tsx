@@ -5,6 +5,7 @@ import { shortenedUrlsType } from "../Home/Components/UrlInfo/UrlInfo";
 import { DisplayClickCount } from "./Components/DisplayClickCount/DisplayClickCount";
 import { processData } from "../../Util/dataProcessor";
 import { DisplayRegionData } from "./Components/DisplayRegionData/DisplayRegionData";
+import { DataButtons } from "./Components/DataButtons/DataButtons";
 
 export type UrlClickType = {
   clickedAt: Date;
@@ -46,7 +47,14 @@ export const Tracking = () => {
 
       <div className={styles.dataDisplayWrapper}>
         <div className={styles.dataWrapper}>
-          <DataButtons setTimeFrame={setTimeFrame} />
+          <div className={styles.dataBtnsWrapper}>
+            <DataButtons setTimeFrame={setTimeFrame} />
+            <DateSelector
+              setStartDay={setStartDay}
+              setEndDay={setEndDay}
+              timeFrame={timeFrame}
+            />
+          </div>
           <div className={styles.chartsWrapper}>
             <div className={styles.chartRow}>
               <div className={styles.chartWrapper}>
@@ -68,66 +76,31 @@ export const Tracking = () => {
   );
 };
 
-type DataButtonsProps = {
-  setTimeFrame: React.Dispatch<React.SetStateAction<string>>;
+type DateSelectorProps = {
+  setStartDay: React.Dispatch<React.SetStateAction<Date>>;
+  setEndDay: React.Dispatch<React.SetStateAction<Date>>;
+  timeFrame: string;
 };
 
-const DataButtons = ({ setTimeFrame }: DataButtonsProps) => {
-  const [activeBtn, setActiveBtn] = useState(0);
-
-  const handleClick = (index: number) => {
-    switch (index) {
-      case 0:
-        setTimeFrame("monthly");
-        break;
-      case 1:
-        setTimeFrame("weekly");
-        break;
-      case 2:
-        setTimeFrame("daily");
-        break;
-      case 3:
-        setTimeFrame("hourly");
-        break;
-      case 4:
-        setTimeFrame("recent");
-        break;
-    }
-    setActiveBtn(index);
-  };
-
-  return (
-    <div className={styles.dataBtnsWrapper}>
-      <button
-        className={`${styles.dataBtn} ${activeBtn === 0 ? styles.active : ""}`}
-        onClick={() => handleClick(0)}
-      >
-        Monthly
-      </button>
-      <button
-        className={`${styles.dataBtn} ${activeBtn === 1 ? styles.active : ""}`}
-        onClick={() => handleClick(1)}
-      >
-        Weekly
-      </button>
-      <button
-        className={`${styles.dataBtn} ${activeBtn === 2 ? styles.active : ""}`}
-        onClick={() => handleClick(2)}
-      >
-        Daily
-      </button>
-      <button
-        className={`${styles.dataBtn} ${activeBtn === 3 ? styles.active : ""}`}
-        onClick={() => handleClick(3)}
-      >
-        Hourly
-      </button>
-      <button
-        className={`${styles.dataBtn} ${activeBtn === 4 ? styles.active : ""}`}
-        onClick={() => handleClick(4)}
-      >
-        Last Hour
-      </button>
-    </div>
-  );
+const DateSelector = ({
+  setStartDay,
+  setEndDay,
+  timeFrame,
+}: DateSelectorProps) => {
+  switch (timeFrame) {
+    case "yearly":
+      return <div></div>;
+    case "monthly":
+      return <div></div>;
+    case "weekly":
+      return <div></div>;
+    case "daily":
+      return <div></div>;
+    case "hourly":
+      return <div></div>;
+    case "recent":
+      return <div></div>;
+    default:
+      return <div></div>;
+  }
 };

@@ -10,7 +10,7 @@ export const processData = (
   const encodedTimeZone = encodeURIComponent(userTimeZone);
   switch (timeFrame) {
     case "yearly":
-
+      return getYearlyData(startDate, endDate, encodedTimeZone);
     case "monthly":
       return getMonthlyData(encodedTimeZone);
     case "weekly":
@@ -24,6 +24,21 @@ export const processData = (
     default:
       return getMonthlyData(encodedTimeZone);
   }
+};
+
+const getYearlyData = async (
+  startYear: Date,
+  endYear: Date,
+  encodedTimeZone: string
+) => {
+  const response = await axios.get(
+    `http://localhost:8080/tracking/range/7d8a5b5d/${startYear.toISOString()}/${endYear.toISOString()}?timeZone=${encodedTimeZone}`
+  );
+  const urls: UrlClickType[] = response.data;
+
+  assingnUrlsDate(urls);
+
+  return urls;
 };
 
 const getMonthlyData = async (encodedTimeZone: string) => {
