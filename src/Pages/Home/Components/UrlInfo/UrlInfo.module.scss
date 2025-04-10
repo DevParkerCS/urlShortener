@@ -4,11 +4,12 @@
 }
 
 .topContentText {
-  margin-left: 5rem;
+  width: 100vw;
+  display: flex;
   font-size: 2rem;
   color: #4a6572;
-  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
 }
