@@ -18,6 +18,7 @@ export type UrlClickType = {
 };
 
 export const Tracking = () => {
+  const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
   const [timeFrame, setTimeFrame] = useState("monthly");
   const [startDay, setStartDay] = useState<Date>(new Date());
@@ -30,21 +31,24 @@ export const Tracking = () => {
 
   useEffect(() => {
     getLinkData();
-  }, [timeFrame]);
+  }, [timeFrame, shortUrl]);
 
   const getLinkData = async () => {
-    try {
-      setIsDataProcessed(false);
-      const urls: UrlClickType[] = await processData(
-        timeFrame,
-        startDay,
-        endDay
-      );
+    if (shortUrl != null) {
+      try {
+        setIsDataProcessed(false);
+        const urls: UrlClickType[] = await processData(
+          shortUrl,
+          timeFrame,
+          startDay,
+          endDay
+        );
 
-      setUrlData([...urls]);
-      setIsDataProcessed(true);
-    } catch {
-      console.log("Error getting processed data");
+        setUrlData([...urls]);
+        setIsDataProcessed(true);
+      } catch {
+        console.log("Error getting processed data");
+      }
     }
   };
 
@@ -52,7 +56,8 @@ export const Tracking = () => {
     <div>
       <Nav />
 
-      <UrlSelect />
+      <UrlSelect setShortUrl={setShortUrl} />
+      <h1 className={styles.urlTitle}>Shrtur.com/{shortUrl}</h1>
 
       <h2 className={styles.pageClicksTitle}>
         Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}

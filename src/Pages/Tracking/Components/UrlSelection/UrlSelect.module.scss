@@ -1,0 +1,47 @@
+.componentWrapper {
+  position: absolute;
+}
+
+.urlsWrapper {
+  max-height: 0px;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: max-height 0.15s linear;
+  position: absolute;
+
+  &.active {
+    max-height: 200px;
+  }
+
+  .urlWrapper:hover {
+    background-color: #3c515c;
+  }
+}
+
+.urlWrapper {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background-color: #4a6572;
+  color: white;
+  padding: 0.25rem 1rem;
+  width: 350px;
+  font-size: 1.25rem;
+  border: 3px solid transparent;
+
+  &.selected {
+    border: 3px solid black;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .urlInfo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdownBtn {
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+}

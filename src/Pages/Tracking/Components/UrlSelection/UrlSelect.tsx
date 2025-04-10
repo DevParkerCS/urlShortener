@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { shortenedUrlsType } from "../../../Home/Components/UrlInfo/UrlInfo";
 import styles from "./UrlSelect.module.scss";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
-export const UrlSelect = () => {
+type UrlSelectProps = {
+  setShortUrl: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+export const UrlSelect = ({ setShortUrl }: UrlSelectProps) => {
   const [urls, setUrls] = useState<shortenedUrlsType[]>([]);
   const [selectedUrl, setSelectedUrl] = useState<shortenedUrlsType>(urls[0]);
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -11,6 +17,12 @@ export const UrlSelect = () => {
   useEffect(() => {
     getAllUrls();
   }, []);
+
+  useEffect(() => {
+    if (selectedUrl) {
+      setShortUrl(selectedUrl.shortUrl);
+    }
+  }, [selectedUrl]);
 
   const getAllUrls = async () => {
     try {
@@ -23,15 +35,29 @@ export const UrlSelect = () => {
     }
   };
 
+  const handleUrlClick = (url: shortenedUrlsType) => {
+    setSelectedUrl(url);
+    setDropdownActive(false);
+  };
+
   return (
-    <div>
+    <div className={styles.componentWrapper}>
       {selectedUrl != null && (
         <div
-          className={styles.urlWrapper}
+          className={`${styles.urlWrapper} ${styles.selected}`}
           onClick={() => setDropdownActive(!dropdownActive)}
         >
-          <span>{selectedUrl.longUrl}</span>
-          <span>https://localhost:3000/{selectedUrl.shortUrl}</span>
+          <div className={styles.urlInfo}>
+            <span>{selectedUrl.longUrl}</span>
+            <span>http://localhost:3000/{selectedUrl.shortUrl}</span>
+          </div>
+          <div className={styles.dropdownBtn}>
+            {dropdownActive ? (
+              <FontAwesomeIcon icon={faCaretUp} />
+            ) : (
+              <FontAwesomeIcon icon={faCaretDown} />
+            )}
+          </div>
         </div>
       )}
 
@@ -42,10 +68,10 @@ export const UrlSelect = () => {
           <div
             className={`${styles.urlWrapper}`}
             key={i}
-            onClick={() => setSelectedUrl(u)}
+            onClick={() => handleUrlClick(u)}
           >
             <span>{u.longUrl}</span>
-            <span>https://localhost:3000/{u.shortUrl}</span>
+            <span>http://localhost:3000/{u.shortUrl}</span>
           </div>
         ))}
       </div>
