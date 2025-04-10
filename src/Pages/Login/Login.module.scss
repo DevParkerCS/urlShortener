@@ -1,0 +1,21 @@
+.contentWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.formWrapper {
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0px 0px 10px black;
+  width: fit-content;
+  margin-top: 2rem;
+  background-color: #4a6572;
+}
+
+.loginOption {
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1rem;
+}

@@ -1,0 +1,43 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formTitle {
+  text-align: center;
+  color: white;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  .inputLabel {
+    font-size: 1.25rem;
+    width: 500px;
+    color: white;
+  }
+
+  .formInput {
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+  }
+}
+
+.loginBtn {
+  font-size: 1.5rem;
+  border-radius: 15px;
+  padding: 0.5rem;
+  border: 2px solid black;
+  cursor: pointer;
+  transition: all 0.15s linear;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+}

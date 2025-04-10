@@ -19,7 +19,7 @@ export const Nav = () => {
         <li className={styles.navItem} onClick={() => nav("/Tracking")}>
           Tracking
         </li>
-        <li className={styles.navItem} onClick={() => nav("/")}>
+        <li className={styles.navItem} onClick={() => nav("/login")}>
           Login
         </li>
       </ul>
