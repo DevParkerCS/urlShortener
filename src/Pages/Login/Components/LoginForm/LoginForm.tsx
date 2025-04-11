@@ -1,10 +1,20 @@
 import styles from "./LoginForm.module.scss";
+import { handleLogin } from "../../../../Util/UserAuthentication";
 
 export const LoginForm = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const username = (form[0] as HTMLInputElement).value;
+    const password = (form[1] as HTMLInputElement).value;
+
+    const res = handleLogin(username, password);
+  }
+
   return (
     <div className={styles.formWrapper}>
       <h1 className={styles.formTitle}>Login</h1>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.inputWrapper}>
           <label className={styles.inputLabel} htmlFor="username">
             Username:
