@@ -5,15 +5,28 @@ import axios from "axios";
 */
 export const handleLogin = async (username: string, password: string) => {
     try {
-        console.log(username, password);
         const response = await axios.post("http://localhost:8080/login", {
             "username": username,
             "password": password
-        });
+        },);
+        console.log(response.data == "");
 
         return 1;
     } catch (err) {
         console.log("Server error: ");
         return -1
+    }
+}
+
+export const handleSignup = async (username: string, password: string) => {
+    try {
+        const response = await axios.post("http://localhost:8080/signup", {
+            "username": username,
+            "password": password
+        })
+        console.log("signed up");
+    } catch (err) {
+        console.log("Error");
+        return -1;
     }
 }
