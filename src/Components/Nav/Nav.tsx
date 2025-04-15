@@ -1,8 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Nav.module.scss";
+import { useUser } from "../../Context/UserContext";
+import { handleLogout } from "../../Util/UserAuthentication";
 
 export const Nav = () => {
   const nav = useNavigate();
+  const user = useUser();
+
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    console.log(user.user);
+    user.setUser(null);
+    nav("/");
+  };
 
   return (
     <div className={styles.navWrapper}>
@@ -19,9 +29,15 @@ export const Nav = () => {
         <li className={styles.navItem} onClick={() => nav("/Tracking")}>
           Tracking
         </li>
-        <li className={styles.navItem} onClick={() => nav("/login")}>
-          Login
-        </li>
+        {user.user === null ? (
+          <li className={styles.navItem} onClick={() => nav("/login")}>
+            Login
+          </li>
+        ) : (
+          <li className={styles.navItem} onClick={handleLogoutClick}>
+            Logout
+          </li>
+        )}
       </ul>
     </div>
   );
