@@ -5,18 +5,21 @@ import { UrlRedirect } from "./Pages/UrlRedirect/UrlRedirect";
 import "./App.module.scss";
 import { Tracking } from "./Pages/Tracking/Tracking";
 import { Login } from "./Pages/Login/Login";
+import { UserProvider } from "./Context/UserContext";
 
 export const App = () => {
   return (
     <div>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/tracking" element={<Tracking />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/:id" element={<UrlRedirect />}></Route>
-        </Routes>
-      </Router>
+      <UserProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/tracking" element={<Tracking />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/:id" element={<UrlRedirect />}></Route>
+          </Routes>
+        </Router>
+      </UserProvider>
     </div>
   );
 };
