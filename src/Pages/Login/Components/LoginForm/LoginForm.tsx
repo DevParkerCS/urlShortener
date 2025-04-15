@@ -1,15 +1,18 @@
 import styles from "./LoginForm.module.scss";
 import { handleLogin } from "../../../../Util/UserAuthentication";
+import { User, useUser } from "../../../../Context/UserContext";
 
 export const LoginForm = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const user = useUser();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const username = (form[0] as HTMLInputElement).value;
     const password = (form[1] as HTMLInputElement).value;
 
-    const res = handleLogin(username, password);
-  }
+    const res = await handleLogin(username, password);
+    user.setUser(res);
+  };
 
   return (
     <div className={styles.formWrapper}>
