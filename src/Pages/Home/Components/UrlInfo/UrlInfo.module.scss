@@ -1,15 +1,20 @@
 .topContentWrapper {
   display: flex;
-  align-items: center;
+  margin-top: 2rem;
 }
 
 .topContentText {
-  width: 100vw;
+  margin-left: 2rem;
   display: flex;
   font-size: 2rem;
   color: #4a6572;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 2rem;
+  width: 550px;
+
+  p {
+    font-size: 1.5rem;
+    color: #3d5561;
+    margin-top: 1rem;
+  }
 }

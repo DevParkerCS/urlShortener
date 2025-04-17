@@ -62,6 +62,12 @@ export const UrlInfo = () => {
             <h2>Shorten Your Links,</h2>
             <h2>Expand Your Website!</h2>
           </div>
+          <div>
+            <p>
+              Want more out of your link shortener? Track link analytics by
+              being logged in or creating an account!
+            </p>
+          </div>
         </div>
       </div>
       <RecentlyUsedUrls
