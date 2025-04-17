@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, {
   createContext,
   useContext,
@@ -22,8 +23,28 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const checkUserCookies = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/checkUserCookies",
+        {},
+        { withCredentials: true }
+      );
+      const user: User | null = response.data;
+      if (user?.username) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    } catch {
+      setUser(null);
+    }
+  };
+
   // Add logic to check if user has session cookie
-  useEffect(() => {}, []);
+  useEffect(() => {
+    checkUserCookies();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
