@@ -6,12 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 type UrlSelectProps = {
-  setShortUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedUrl: React.Dispatch<
+    React.SetStateAction<shortenedUrlsType | null>
+  >;
+  selectedUrl: shortenedUrlsType | null;
 };
 
-export const UrlSelect = ({ setShortUrl }: UrlSelectProps) => {
+export const UrlSelect = ({ setSelectedUrl, selectedUrl }: UrlSelectProps) => {
   const [urls, setUrls] = useState<shortenedUrlsType[]>([]);
-  const [selectedUrl, setSelectedUrl] = useState<shortenedUrlsType>(urls[0]);
   const [dropdownActive, setDropdownActive] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export const UrlSelect = ({ setShortUrl }: UrlSelectProps) => {
 
   useEffect(() => {
     if (selectedUrl) {
-      setShortUrl(selectedUrl.shortUrl);
+      setSelectedUrl(selectedUrl);
     }
   }, [selectedUrl]);
 

@@ -8,6 +8,10 @@ import { DisplayRegionData } from "./Components/DisplayRegionData/DisplayRegionD
 import { DataButtons } from "./Components/DataButtons/DataButtons";
 import axios from "axios";
 import { UrlSelect } from "./Components/UrlSelection/UrlSelect";
+import { useUser } from "../../Context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { NotLoggedInPage } from "./Components/NotLoggedInPage/NotLoggedInPage";
+import { DateSelector } from "./Components/DateSelector/DateSelector";
 
 export type UrlClickType = {
   clickedAt: Date;
@@ -18,27 +22,27 @@ export type UrlClickType = {
 };
 
 export const Tracking = () => {
-  const [shortUrl, setShortUrl] = useState<string | null>(null);
+  const [selectedUrl, setSelectedUrl] = useState<shortenedUrlsType | null>(
+    null
+  );
   const [urlData, setUrlData] = useState<UrlClickType[]>([]);
   const [timeFrame, setTimeFrame] = useState("monthly");
   const [startDay, setStartDay] = useState<Date>(new Date());
-  const [endDay, setEndDay] = useState<Date>(() => {
-    const date = new Date(startDay);
-    date.setDate(date.getDate() + 7 * 4 * 3);
-    return date;
-  });
+  const [endDay, setEndDay] = useState<Date>(new Date());
   const [isDataProcessed, setIsDataProcessed] = useState(false);
+  const user = useUser();
 
   useEffect(() => {
+    console.log(startDay);
     getLinkData();
-  }, [timeFrame, shortUrl]);
+  }, [timeFrame, selectedUrl, startDay, endDay]);
 
   const getLinkData = async () => {
-    if (shortUrl != null) {
+    if (selectedUrl != null) {
       try {
         setIsDataProcessed(false);
         const urls: UrlClickType[] = await processData(
-          shortUrl,
+          selectedUrl.shortUrl,
           timeFrame,
           startDay,
           endDay
@@ -52,15 +56,21 @@ export const Tracking = () => {
     }
   };
 
+  if (user.user === null) {
+    return <NotLoggedInPage />;
+  }
+
   return (
     <div>
       <Nav />
 
-      <UrlSelect setShortUrl={setShortUrl} />
-      <h1 className={styles.urlTitle}>Shrtur.com/{shortUrl}</h1>
+      <UrlSelect setSelectedUrl={setSelectedUrl} selectedUrl={selectedUrl} />
+      <div className={styles.urlTitleWrapper}>
+        <h1 className={styles.urlTitle}>Shrtur.com/{selectedUrl?.shortUrl}</h1>
+      </div>
 
       <h2 className={styles.pageClicksTitle}>
-        Total Page Clicks: {urlData[0]?.urlMapping?.totalClicks || 0}
+        Total Page Clicks: {selectedUrl?.totalClicks || 0}
       </h2>
 
       <div className={styles.dataDisplayWrapper}>
@@ -92,33 +102,4 @@ export const Tracking = () => {
       </div>
     </div>
   );
-};
-
-type DateSelectorProps = {
-  setStartDay: React.Dispatch<React.SetStateAction<Date>>;
-  setEndDay: React.Dispatch<React.SetStateAction<Date>>;
-  timeFrame: string;
-};
-
-const DateSelector = ({
-  setStartDay,
-  setEndDay,
-  timeFrame,
-}: DateSelectorProps) => {
-  switch (timeFrame) {
-    case "yearly":
-      return <div></div>;
-    case "monthly":
-      return <div></div>;
-    case "weekly":
-      return <div></div>;
-    case "daily":
-      return <div></div>;
-    case "hourly":
-      return <div></div>;
-    case "recent":
-      return <div></div>;
-    default:
-      return <div></div>;
-  }
 };
